@@ -25,5 +25,15 @@
   "bugs": {
     "url": "https://github.com/ganguly2021/react_native_eshop_backend/issues"
   },
-  "homepage": "https://github.com/ganguly2021/react_native_eshop_backend#readme"
+  "homepage": "https://github.com/ganguly2021/react_native_eshop_backend#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "joi": "^17.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.5",
+    "morgan": "^1.10.0"
+  }
 }
