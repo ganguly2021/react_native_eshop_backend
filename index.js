@@ -8,12 +8,27 @@ const port = process.env.PORT
 const cors = require('cors');
 const morgan = require('morgan');
 
+// api routes
+const api_version = process.env.API_VERSION;
+const productRoutes = require('./routes/products');
+const userRoutes = require('./routes/users');
+const orderRoutes = require('./routes/orders');
+
 
 // middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan('dev'));
+
+// products api routes
+app.use(`${api_version}/products`, productRoutes);
+
+// users api routes
+app.use(`${api_version}/users`, userRoutes);
+
+// orders api routes
+app.use(`${api_version}/orders`, orderRoutes);
 
 // routes
 app.get('/', (req, res) => {
