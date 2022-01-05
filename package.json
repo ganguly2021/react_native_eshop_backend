@@ -1,0 +1,29 @@
+{
+  "name": "react_native_eshop_backend",
+  "version": "1.0.0",
+  "description": "React Native e-commerce app backend in express & mongodb.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganguly2021/react_native_eshop_backend.git"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "react",
+    "native",
+    "react",
+    "backend",
+    "rest",
+    "api"
+  ],
+  "author": "Sandeep Ganguly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ganguly2021/react_native_eshop_backend/issues"
+  },
+  "homepage": "https://github.com/ganguly2021/react_native_eshop_backend#readme"
+}
