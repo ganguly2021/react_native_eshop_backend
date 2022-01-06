@@ -4,22 +4,27 @@ const Schema = mongoose.Schema;
 // create product schema
 const productSchema = new Schema({
   name: {
-    type: String
+    type: String,
+    required: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   richDescription: {
-    type: String
+    type: String,
+    default: ''
   },
   image: {
+    type: String,
+    default: ''
+  },
+  images: [{
     type: String
-  },
-  images: {
-    type: [String]
-  },
+  }],
   brand: {
-    type: String
+    type: String,
+    default: ''
   },
   price: {
     type: Number,
@@ -27,23 +32,30 @@ const productSchema = new Schema({
   },
   category: {
     type: Schema.Types.ObjectId,
-    ref: 'categories'
+    ref: 'categories',
+    required: true
   },
   countInStock: {
     type: Number,
-    default: 0
+    required: true,
+    min: 0,
+    max: 255
   },
   rating: {
     type: Number,
     default: 0
   },
+  numReviews: {
+    type: Number,
+    default: 0
+  },
   isFeatured: {
     type: Boolean,
-    default: true
+    default: false
   },
   dateCreated: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
 });
 
