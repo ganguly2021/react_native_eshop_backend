@@ -152,5 +152,53 @@ router.delete('/:id', (req, res) => {
 });
 
 
+/*
+  URL: api/v1/categories/:id
+  Method: UPDATE
+  Desc: Update category using id
+*/
+router.put('/:id', (req, res) => {
+  // get category id
+  const categoryID = req.params.id;
+
+  const updatedCategory = {
+    name: req.body.name,
+    icon: req.body.icon,
+    color: req.body.color
+  };
+
+  // find category in database & delete
+  Category.findByIdAndUpdate(categoryID, updatedCategory, { new: true })
+    .then(category => {
+
+      // if category not found
+      if (!category) {
+        // error response
+        return res.status(404).json({
+          status: false,
+          code: 404,
+          message: 'Category not found.'
+        });
+      }
+
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'Category updated.',
+        category: category
+      });
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Fail to update category.',
+        error: error
+      });
+    });
+});
+
+
 // export router
 module.exports = router;
