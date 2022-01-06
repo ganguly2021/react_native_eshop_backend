@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 // create category schema
 const categorySchema = new Schema({
   name: {
-    type: String
+    type: String,
+    required: true
   },
   color: {
     type: String
