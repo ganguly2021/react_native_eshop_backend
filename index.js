@@ -13,6 +13,7 @@ const api_version = process.env.API_VERSION;
 const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users');
 const orderRoutes = require('./routes/orders');
+const categoriesRoutes = require('./routes/categories');
 
 
 // middleware setup
@@ -29,6 +30,9 @@ app.use(`${api_version}/users`, userRoutes);
 
 // orders api routes
 app.use(`${api_version}/orders`, orderRoutes);
+
+// categories api routes
+app.use(`${api_version}/categories`, categoriesRoutes);
 
 // routes
 app.get('/', (req, res) => {
