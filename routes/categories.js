@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
       return res.status(502).json({
         status: false,
         code: 502,
-        message: 'Fail to get all categories.',
+        message: 'Database error to get all categories.',
         error: error
       });
     })
@@ -69,7 +69,7 @@ router.get('/:id', (req, res) => {
       return res.status(502).json({
         status: false,
         code: 502,
-        message: 'Fail to get category by id.',
+        message: 'Database error to get category by id.',
         error: error
       });
     })
@@ -103,7 +103,7 @@ router.post('/', (req, res) => {
       return res.status(502).json({
         status: false,
         code: 502,
-        message: 'Category add failed.',
+        message: 'Database error to add category.',
         error: error
       });
     });
@@ -145,7 +145,7 @@ router.delete('/:id', (req, res) => {
       return res.status(502).json({
         status: false,
         code: 502,
-        message: 'Category delete failed.',
+        message: 'Database error for category delete.',
         error: error
       });
     });
@@ -193,7 +193,7 @@ router.put('/:id', (req, res) => {
       return res.status(502).json({
         status: false,
         code: 502,
-        message: 'Fail to update category.',
+        message: 'Database error to update category.',
         error: error
       });
     });

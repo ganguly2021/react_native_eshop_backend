@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
       return res.status(502).json({
         status: false,
         code: 502,
-        message: 'Fail to get all products.',
+        message: 'Database error to get all products.',
         error: error
       });
     });
@@ -73,7 +73,7 @@ router.get('/:id', (req, res) => {
       return res.status(502).json({
         status: false,
         code: 502,
-        message: 'Fail to get product by id.',
+        message: 'Database error get product by id.',
         error: error
       });
     });
@@ -129,7 +129,7 @@ router.post('/', (req, res) => {
           return res.status(502).json({
             status: false,
             code: 502,
-            message: 'Fail to add product.',
+            message: 'Database error to add new product.',
             error: error
           });
         });
@@ -139,7 +139,88 @@ router.post('/', (req, res) => {
       return res.status(502).json({
         status: false,
         code: 502,
-        message: 'Fail to find product category.',
+        message: 'Database error to find product category.',
+        error: error
+      });
+    });
+});
+
+
+/*
+  URL: api/v1/products/:id
+  Method: PUT
+  Desc: Update product by id.
+*/
+router.put('/:id', (req, res) => {
+
+  // get product id from url
+  const productID = req.params.id;
+
+  // check product category exists or not
+  Category.findById(req.body.category)
+    .then(category => {
+      // check category exists or not
+      if (!category) {
+        // success response
+        return res.status(404).json({
+          status: false,
+          code: 404,
+          message: 'Product category dont exists.'
+        });
+      }
+
+      // create updated product
+      const updatedProduct = {
+        name: req.body.name,
+        description: req.body.description,
+        richDescription: req.body.richDescription,
+        image: req.body.image,
+        brand: req.body.brand,
+        price: req.body.price,
+        category: req.body.category,
+        countInStock: req.body.countInStock,
+        rating: req.body.rating,
+        numReviews: req.body.numReviews,
+        isFeatured: req.body.isFeatured
+      };
+
+      // update product
+      Product.findByIdAndUpdate(productID, updatedProduct, { new: true })
+        .then(product => {
+
+          // if product not found
+          if (!product) {
+            // error response
+            return res.status(404).json({
+              status: false,
+              code: 404,
+              message: 'Product not found.'
+            });
+          }
+
+          // success response
+          return res.status(200).json({
+            status: true,
+            code: 200,
+            message: 'Product updated successfully.',
+            product: product
+          });
+        }).catch(error => {
+          // error response
+          return res.status(502).json({
+            status: false,
+            code: 502,
+            message: 'Database error to update product',
+            error: error
+          });
+        });
+
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error to find category.',
         error: error
       });
     });
