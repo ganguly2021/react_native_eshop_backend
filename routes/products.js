@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('./../models/product');
 const Category = require('./../models/category');
+const mongoose = require('mongoose');
 
 // middleware setup
 
@@ -45,6 +46,16 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // get product id from URL
   const productID = req.params.id;
+
+  // if product is invalid
+  if (!mongoose.isValidObjectId(productID)) {
+    // error response
+    return res.status(400).json({
+      status: false,
+      code: 400,
+      message: 'Product id not valid.'
+    });
+  }
 
   // get product based on id from database
   Product.findById(productID)
@@ -91,7 +102,7 @@ router.post('/', (req, res) => {
     .then(category => {
       // check category exists or not
       if (!category) {
-        // success response
+        // error response
         return res.status(404).json({
           status: false,
           code: 404,
@@ -156,12 +167,22 @@ router.put('/:id', (req, res) => {
   // get product id from url
   const productID = req.params.id;
 
+  // if product is invalid
+  if (!mongoose.isValidObjectId(productID)) {
+    // error response
+    return res.status(400).json({
+      status: false,
+      code: 400,
+      message: 'Product id not valid.'
+    });
+  }
+
   // check product category exists or not
   Category.findById(req.body.category)
     .then(category => {
       // check category exists or not
       if (!category) {
-        // success response
+        // error response
         return res.status(404).json({
           status: false,
           code: 404,
@@ -225,6 +246,59 @@ router.put('/:id', (req, res) => {
       });
     });
 });
+
+
+/*
+  URL: api/v1/products/:id
+  Method: DELETE
+  Desc: Delete product by id.
+*/
+router.delete('/:id', (req, res) => {
+
+  // get product id from url
+  const productID = req.params.id;
+
+  // if product is invalid
+  if (!mongoose.isValidObjectId(productID)) {
+    // error response
+    return res.status(400).json({
+      status: false,
+      code: 400,
+      message: 'Product id not valid.'
+    });
+  }
+
+  Product.findByIdAndDelete(productID)
+    .then(product => {
+
+      if (!product) {
+        // error response
+        return res.status(404).json({
+          status: false,
+          code: 404,
+          message: 'Product not found.'
+        });
+      }
+
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'Product deleted.',
+        product: product
+      });
+
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error to delete product by id.',
+        error: error
+      });
+    });
+});
+
 
 
 

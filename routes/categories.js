@@ -43,6 +43,16 @@ router.get('/:id', (req, res) => {
   // category id from url
   const categoryID = req.params.id;
 
+  // if category is invalid
+  if (!mongoose.isValidObjectId(categoryID)) {
+    // error response
+    return res.status(400).json({
+      status: false,
+      code: 400,
+      message: 'Category id not valid.'
+    });
+  }
+
   // get category by id
   Category.findById(categoryID)
     .then(category => {
@@ -119,6 +129,16 @@ router.delete('/:id', (req, res) => {
   // get category id
   const categoryID = req.params.id;
 
+  // if category is invalid
+  if (!mongoose.isValidObjectId(categoryID)) {
+    // error response
+    return res.status(400).json({
+      status: false,
+      code: 400,
+      message: 'Category id not valid.'
+    });
+  }
+
   // find category in database & delete
   Category.findByIdAndRemove(categoryID)
     .then(category => {
@@ -160,6 +180,16 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
   // get category id
   const categoryID = req.params.id;
+
+  // if category is invalid
+  if (!mongoose.isValidObjectId(categoryID)) {
+    // error response
+    return res.status(400).json({
+      status: false,
+      code: 400,
+      message: 'Category id not valid.'
+    });
+  }
 
   const updatedCategory = {
     name: req.body.name,
