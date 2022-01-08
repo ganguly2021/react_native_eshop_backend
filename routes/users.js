@@ -212,6 +212,34 @@ router.post('/login', (req, res) => {
 });
 
 
+/*
+  URL: api/v1/users/get/count
+  Method: GET
+  Desc: Get number of users in database
+*/
+router.get('/get/count', (req, res) => {
+
+  // get number of users
+  User.countDocuments({})
+    .then(count => {
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'Number of users in collection.',
+        count: count
+      });
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error to get number of users.',
+        error: error
+      });
+    });
+});
+
 
 
 // export router
