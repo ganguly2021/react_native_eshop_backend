@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+// const opts = { toJSON: { virtuals: true } };
 
 // create product schema
 const productSchema = new Schema({
@@ -59,6 +60,13 @@ const productSchema = new Schema({
   }
 });
 
+// create virtual key in product document
+productSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+
+productSchema.set('toJSON', { virtuals: true });
 
 // export product schema / model
 module.exports = mongoose.model('products', productSchema);
