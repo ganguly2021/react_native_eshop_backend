@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('./../models/user');
-const { getHashedPassword } = require('./../helpers/auth')
+const {
+  getHashedPassword,
+  isPasswordMatch,
+  getJWTToken
+} = require('./../helpers/auth')
 
 // middleware setup
 
@@ -140,6 +144,67 @@ router.post('/', (req, res) => {
         status: false,
         code: 502,
         message: 'Database error for signup new user.',
+        error: error
+      });
+    });
+});
+
+
+/*
+  URL: api/v1/users/login
+  Method: POST
+  Desc: Login user
+*/
+router.post('/login', (req, res) => {
+
+  // check user exists or not
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      // if user not exists
+      if (!user) {
+        // error response
+        return res.status(404).json({
+          status: false,
+          code: 404,
+          message: 'User not found.'
+        });
+      }
+
+      // if password not match
+      if (!isPasswordMatch(req.body.password, user.password)) {
+        // error response
+        return res.status(401).json({
+          status: false,
+          code: 401,
+          message: 'Password not matched.'
+        });
+      }
+
+      // create jwt payload
+      const payload = {
+        name: user.name,
+        isAdmin: user.isAdmin,
+        email: user.email
+      };
+
+      // create jwt token
+      const token = getJWTToken(payload);
+
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'User login success.',
+        token: token,
+        user: payload
+      });
+
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error for login user.',
         error: error
       });
     });
