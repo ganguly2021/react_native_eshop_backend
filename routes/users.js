@@ -182,6 +182,7 @@ router.post('/login', (req, res) => {
 
       // create jwt payload
       const payload = {
+        id: user.id,
         name: user.name,
         isAdmin: user.isAdmin,
         email: user.email

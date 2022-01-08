@@ -18,7 +18,7 @@ const isPasswordMatch = (password, hashedPassword) => {
 
 // create auth json web token
 const getJWTToken = (payload) => {
-  return jwt.sign(payload, secret, { expiresIn: '8h' });
+  return jwt.sign(payload, secret, { expiresIn: '1d' });
 }
 
 
