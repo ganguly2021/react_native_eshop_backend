@@ -43,6 +43,10 @@ const userSchema = new Schema({
   country: {
     type: String,
     default: ''
+  },
+  dateCreated: {
+    type: Date,
+    default: Date.now
   }
 });
 

@@ -12,6 +12,10 @@ const categorySchema = new Schema({
   },
   icon: {
     type: String
+  },
+  dateCreated: {
+    type: Date,
+    default: Date.now
   }
 });
 
