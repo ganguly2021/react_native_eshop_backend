@@ -329,5 +329,64 @@ router.get('/get/count', (req, res) => {
 });
 
 
+/*
+  URL: api/v1/products/get/featured
+  Method: GET
+  Desc: Get all featured product
+*/
+router.get('/get/featured', (req, res) => {
+
+  // get featured products
+  Product.find({ isFeatured: true })
+    .then(products => {
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'Featured products list.',
+        products: products
+      });
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error to get featured products.',
+        error: error
+      });
+    });
+});
+
+/*
+  URL: api/v1/products/get/featured/:count
+  Method: GET
+  Desc: Get featured product by limit
+*/
+router.get('/get/featured/:count', (req, res) => {
+  // get count
+  const count = (!isNaN(Number(req.params.count)) ? Number(req.params.count) : 0);
+
+  // get featured products
+  Product.find({ isFeatured: true }).limit(count)
+    .then(products => {
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'Featured products by count list.',
+        products: products
+      });
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error to get featured products by count.',
+        error: error
+      });
+    });
+});
+
+
 // export router
 module.exports = router;
