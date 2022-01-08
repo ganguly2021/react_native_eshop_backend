@@ -15,8 +15,26 @@ const mongoose = require('mongoose');
   Desc: get all products
 */
 router.get('/', (req, res) => {
+
+  // filter products based on category
+  // query params is used
+  // base_url/api/v1/products?categories=123,256,652
+
+  let filter = [];
+
+  // if category query params is provided
+  if (req.query.categories) {
+    // split category id into array
+    const temp = req.query.categories.split(',');
+
+    // get only valid mongodb object id from array
+    filter = temp.filter(categoryID => mongoose.isValidObjectId(categoryID));
+  }
+
+  const mongoFilter = ((filter.length !== 0) ? { category: filter } : {});
+
   // get all products from database
-  Product.find()
+  Product.find(mongoFilter)
     .populate('category')
     .then(products => {
       // success response
