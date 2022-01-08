@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 // create user schema
 const userSchema = new Schema({
   name: {
-    type: String
+    type: String,
+    required: true,
   },
   email: {
     type: String,
@@ -15,25 +16,43 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  phone: {
+    type: String,
+    default: ''
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
   street: {
-    type: String
+    type: String,
+    default: ''
   },
   apartment: {
-    type: String
+    type: String,
+    default: ''
+  },
+  zip: {
+    type: String,
+    default: ''
   },
   city: {
-    type: String
-  },
-  pin: {
-    type: String
+    type: String,
+    default: ''
   },
   country: {
     type: String,
-  },
-  phone: {
-    type: Number
+    default: ''
   }
 });
+
+// create mongoose virtual key
+userSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+// set toJSON virtual
+userSchema.set('toJSON', { virtuals: true });
 
 
 // export user schema / model
