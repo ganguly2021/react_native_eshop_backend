@@ -8,6 +8,12 @@ const port = process.env.PORT
 const cors = require('cors');
 const morgan = require('morgan');
 
+const {
+  decryptJWT,
+  validateJWTUser,
+  handleJWTError
+} = require('./helpers/auth');
+
 // api routes
 const api_version = process.env.API_VERSION;
 const productRoutes = require('./routes/products');
@@ -22,6 +28,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.options('*', cors());
 app.use(morgan('dev'));
+
+// handle JSON web Token
+app.use(decryptJWT());
+app.use(handleJWTError);
+app.use(validateJWTUser);
 
 // products api routes
 app.use(`${api_version}/products`, productRoutes);

@@ -2,6 +2,7 @@ const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secret = process.env.SECRET;
 const User = require('./../models/user');
+const expressJWT = require('express-jwt');
 
 // create password hash
 const getHashedPassword = (password) => {
@@ -22,32 +23,23 @@ const getJWTToken = (payload) => {
   return jwt.sign(payload, secret, { expiresIn: '1d' });
 }
 
-// jwt token validate middleware
-const isValidToken = (req, res, next) => {
-  const token = req.headers['authorization'];
 
-  // if token not provided
-  if (!token) {
-    // error response
-    return res.status(404).json({
-      status: false,
-      code: 404,
-      message: 'Auth token not found.'
-    });
-  }
+// decrypt json web token
+// using express-jwt
+const decryptJWT = () => {
+  return expressJWT({
+    secret: secret,
+    algorithms: ['HS256']
+  });
+}
 
-  // decrypt auth token
-  jwt.verify(token, secret, (error, payload) => {
+// check user exists in database or 
+// not based on token decrypted payload
+const validateJWTUser = (req, res, next) => {
+  // if user exists in request object
+  if (req.user !== undefined) {
 
-    // if error occur
-    if (error) {
-      // error response
-      return res.status(402).json({
-        status: false,
-        code: 402,
-        message: 'Fail to decrypt auth token.'
-      });
-    }
+    const payload = req.user;
 
     // find user in database with payload
     User.findOne({ _id: payload.id })
@@ -73,13 +65,32 @@ const isValidToken = (req, res, next) => {
           message: 'Database error for auth token user.'
         });
       });
-  });
+  }
 }
 
+// handle JWT decrypt error
+const handleJWTError = (error, req, res, next) => {
+  // if error occur during
+  // jwt decryption
+  if (error) {
+    // error response
+    return res.status(400).json({
+      status: false,
+      code: 400,
+      message: 'JWT Decryption error.',
+      error: error
+    });
+  }
+
+  // next middleware
+  next();
+}
 
 module.exports = {
   getHashedPassword,
   isPasswordMatch,
   getJWTToken,
-  isValidToken
+  decryptJWT,
+  validateJWTUser,
+  handleJWTError
 }

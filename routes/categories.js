@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Category = require('./../models/category');
-const { isValidToken } = require('./../helpers/auth')
 
 // middleware setup
 
@@ -13,7 +12,7 @@ const { isValidToken } = require('./../helpers/auth')
   Method: GET
   Desc: get all the categories
 */
-router.get('/', isValidToken, (req, res) => {
+router.get('/', (req, res) => {
   // get all categories
   Category.find()
     .then(categories => {
