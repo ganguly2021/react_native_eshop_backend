@@ -73,13 +73,15 @@ const handleJWTError = (error, req, res, next) => {
   // if error occur during
   // jwt decryption
   if (error) {
-    // error response
-    return res.status(400).json({
-      status: false,
-      code: 400,
-      message: 'JWT Decryption error.',
-      error: error
-    });
+    if (error.name === 'UnauthorizedError') {
+      // error response
+      return res.status(error.status).json({
+        status: false,
+        code: error.status,
+        message: error.message,
+        type: error.name
+      });
+    }
   }
 
   // next middleware
