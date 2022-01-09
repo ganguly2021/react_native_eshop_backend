@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.SECRET;
 const User = require('./../models/user');
 const expressJWT = require('express-jwt');
+const api_version = process.env.API_VERSION;
 
 // create password hash
 const getHashedPassword = (password) => {
@@ -23,13 +24,32 @@ const getJWTToken = (payload) => {
   return jwt.sign(payload, secret, { expiresIn: '1d' });
 }
 
+// revoked token
+const isRevoked = (req, payload, done) => {
+  // if user is not admin
+  // if (!payload.isAdmin){
+  //   done(null, true);
+  // }
+
+  // everything ok
+  done();
+}
 
 // decrypt json web token
 // using express-jwt
 const decryptJWT = () => {
   return expressJWT({
     secret: secret,
-    algorithms: ['HS256']
+    algorithms: ['HS256'],
+    isRevoked: isRevoked
+  }).unless({
+    path: [
+      //{ url: `${api_version}/products`, methods: ['GET', 'OPTIONS'] },
+      { url: /\/api\/v1\/products(.*)/, methods: ['GET', 'OPTIONS'] },
+      { url: /\/api\/v1\/categories(.*)/, methods: ['GET', 'OPTIONS'] },
+      `${api_version}/users/login`,
+      `${api_version}/users/register`
+    ]
   });
 }
 
@@ -54,9 +74,6 @@ const validateJWTUser = (req, res, next) => {
           });
         }
 
-        // everything ok call next
-        next();
-
       }).catch(error => {
         // error response
         return res.status(502).json({
@@ -66,6 +83,9 @@ const validateJWTUser = (req, res, next) => {
         });
       });
   }
+
+  // everything ok call next
+  next();
 }
 
 // handle JWT decrypt error

@@ -92,12 +92,12 @@ router.get('/:id', (req, res) => {
 
 
 /*
-  URL: api/v1/users
+  URL: api/v1/users/register
   Method: POST
-  Desc: Signup new user.
+  Desc: Signup / Register new user.
 */
-router.post('/', (req, res) => {
-
+router.post('/register', (req, res) => {
+  
   // check email already exists
   User.findOne({ email: req.body.email })
     .then(user => {

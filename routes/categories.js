@@ -13,6 +13,7 @@ const Category = require('./../models/category');
   Desc: get all the categories
 */
 router.get('/', (req, res) => {
+
   // get all categories
   Category.find()
     .then(categories => {
@@ -24,6 +25,7 @@ router.get('/', (req, res) => {
         categories: categories
       });
     }).catch(error => {
+      console.log(error);
       // error response
       return res.status(502).json({
         status: false,
