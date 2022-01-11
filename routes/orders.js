@@ -186,6 +186,11 @@ router.delete('/:id', (req, res) => {
         });
       }
 
+      order.orderItems.map(async orderItemID => {
+        // items from order_items collection
+        await OrderItem.findByIdAndDelete(orderItemID);
+      });
+
       // success response
       return res.status(200).json({
         status: true,
@@ -229,6 +234,19 @@ router.post('/', async (req, res) => {
   // resolve promises
   let resolvedPromise = await orderItemsIds;
 
+  // calculate total price of products
+  const totalPrices = await Promise.all(resolvedPromise.map(async orderItemID => {
+    // get product price from database
+    const orderItem = await OrderItem.findById(orderItemID).populate('product', 'price');
+    // calculate product price based on quantity
+    const totalPrice = orderItem.product.price * orderItem.quantity;
+    // return product total price
+    return totalPrice;
+  }));
+
+  // add all the prices of product together
+  const totalPrice = totalPrices.reduce((a, b) => a + b, 0);
+
   // create new order
   const newOrder = new Order({
     orderItems: resolvedPromise,
@@ -239,7 +257,7 @@ router.post('/', async (req, res) => {
     country: req.body.country,
     phone: req.body.phone,
     status: req.body.status,
-    totalPrice: req.body.totalPrice,
+    totalPrice: totalPrice,
     user: req.body.user
   });
 
