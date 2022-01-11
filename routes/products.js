@@ -3,6 +3,34 @@ const router = express.Router();
 const Product = require('./../models/product');
 const Category = require('./../models/category');
 const mongoose = require('mongoose');
+const multer = require('multer');
+
+const FILE_TYPE_MAP = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg'
+};
+
+// create multer storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const isValid = FILE_TYPE_MAP[file.mimetype];
+    let uploadError = new Error("image is invalid.");
+
+    if (isValid){
+      uploadError = null;
+    }
+
+    cb(uploadError, 'public/uploads')
+  },
+  filename: function (req, file, cb) {
+    const fileName = file.originalname.split(' ').join('-');
+    const extension = FILE_TYPE_MAP[file.mimetype];
+    cb(null, `${fileName}-${Date.now()}.${extension}`)
+  }
+})
+
+const uploadOptions = multer({ storage: storage })
 
 // middleware setup
 
@@ -113,7 +141,11 @@ router.get('/:id', (req, res) => {
   Method: POST
   Desc: Add new product.
 */
-router.post('/', (req, res) => {
+router.post('/', uploadOptions.single('image'), (req, res) => {
+
+  // uploaded file name
+  const fileName = req.file.filename;
+  const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
 
   // check product category exists or not
   Category.findById(req.body.category)
@@ -133,7 +165,7 @@ router.post('/', (req, res) => {
         name: req.body.name,
         description: req.body.description,
         richDescription: req.body.richDescription,
-        image: req.body.image,
+        image: `${basePath}${fileName}`,
         brand: req.body.brand,
         price: req.body.price,
         category: req.body.category,
