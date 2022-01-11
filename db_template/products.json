@@ -1,0 +1,192 @@
+[
+  {
+    "name": "Samsung Galaxy Smartphone",
+    "description": "Brand new 5G samsung phone with major updates.",
+    "richDescription": "Brand new 5G samsung phone with major updates.",
+    "image": "assets/images/phone_1.png",
+    "images": [
+      "assets/images/pb_1.png",
+      "assets/images/pb_2.png",
+      "assets/images/pb_3.png",
+      "assets/images/pb_4.png"
+    ],
+    "brand": "Samsung",
+    "price": 50000,
+    "category": "<add_category_id>",
+    "countInStock": 100,
+    "rating": 4,
+    "numReviews": 100,
+    "isFeatured": true
+  },
+  {
+    "name": "Voltas AC",
+    "description": "Brand new Air Conditioner with inverter technology.",
+    "richDescription": "Brand new Air Conditioner with inverter technology.",
+    "image": "assets/images/ac_1.png",
+    "images": [
+      "assets/images/acb_1.png",
+      "assets/images/acb_2.png",
+      "assets/images/acb_3.png",
+      "assets/images/acb_4.png"
+    ],
+    "brand": "Tata",
+    "price": 70000,
+    "category": "<add_category_id>",
+    "countInStock": 200,
+    "rating": 3,
+    "numReviews": 1500,
+    "isFeatured": true
+  },
+  {
+    "name": "See You At The Top",
+    "description": "Motivational book by Zig Ziglar.",
+    "richDescription": "Motivational book by Zig Ziglar.",
+    "image": "assets/images/syatt_1.png",
+    "images": [
+      "assets/images/syattb_1.png",
+      "assets/images/syattb_2.png",
+      "assets/images/syattb_3.png",
+      "assets/images/syattb_4.png"
+    ],
+    "brand": "Zig Ziglar Corp.",
+    "price": 300,
+    "category": "<add_category_id>",
+    "countInStock": 1000,
+    "rating": 5,
+    "numReviews": 1500,
+    "isFeatured": true
+  },
+  {
+    "name": "Rich Dad Poor Dad",
+    "description": "Self help financial advisor book from robert kiyosaki.",
+    "richDescription": "Self help financial advisor book from robert kiyosaki.",
+    "image": "assets/images/rdpd_1.png",
+    "images": [
+      "assets/images/rdpdb_1.png",
+      "assets/images/rdpdb_2.png",
+      "assets/images/rdpdb_3.png",
+      "assets/images/rdpdb_4.png"
+    ],
+    "brand": "Rich Dad LLC.",
+    "price": 250,
+    "category": "<add_category_id>",
+    "countInStock": 2000,
+    "rating": 4.5,
+    "numReviews": 3000,
+    "isFeatured": false
+  },
+  {
+    "name": "Double Bed For Couple",
+    "description": "Double bed for newly wed couple made with german wood.",
+    "richDescription": "Double bed for newly wed couple made with german wood.",
+    "image": "assets/images/dbfc_1.png",
+    "images": [
+      "assets/images/dbfcb_1.png",
+      "assets/images/dbfcb_2.png",
+      "assets/images/dbfcb_3.png",
+      "assets/images/dbfcb_4.png"
+    ],
+    "brand": "VinWood",
+    "price": 30000,
+    "category": "<add_category_id>",
+    "countInStock": 750,
+    "rating": 5,
+    "numReviews": 7000,
+    "isFeatured": true
+  },
+  {
+    "name": "Office Chair",
+    "description": "Ergonomic office chair by razor. With super suspension technology.",
+    "richDescription": "Ergonomic office chair by razor. With super suspension technology.",
+    "image": "assets/images/fc_1.png",
+    "images": [
+      "assets/images/fcb_1.png",
+      "assets/images/fcb_2.png",
+      "assets/images/fcb_3.png",
+      "assets/images/fcb_4.png"
+    ],
+    "brand": "Razor",
+    "price": 10000,
+    "category": "<add_category_id>",
+    "countInStock": 300,
+    "rating": 3,
+    "numReviews": 1000,
+    "isFeatured": false
+  },
+  {
+    "name": "Flour 5Kg Bag",
+    "description": "Most trusted brand Flour made with quality ingredients.",
+    "richDescription": "Most trusted brand Flour made with quality ingredients.",
+    "image": "assets/images/flour_1.png",
+    "images": [
+      "assets/images/flourb_1.png",
+      "assets/images/flourb_2.png",
+      "assets/images/flourb_3.png",
+      "assets/images/flourb_4.png"
+    ],
+    "brand": "Tata",
+    "price": 450,
+    "category": "<add_category_id>",
+    "countInStock": 5000,
+    "rating": 3.2,
+    "numReviews": 500,
+    "isFeatured": true
+  },
+  {
+    "name": "Refined Oil 1 ltr",
+    "description": "Pure fresh & healthy refined oil.",
+    "richDescription": "Pure fresh & healthy refined oil.",
+    "image": "assets/images/ro_1.png",
+    "images": [
+      "assets/images/rob_1.png",
+      "assets/images/rob_2.png",
+      "assets/images/rob_3.png",
+      "assets/images/rob_4.png"
+    ],
+    "brand": "Adani",
+    "price": 300,
+    "category": "<add_category_id>",
+    "countInStock": 900,
+    "rating": 3,
+    "numReviews": 1000,
+    "isFeatured": false
+  },
+  {
+    "name": "Chaisaw",
+    "description": "Powerful chainsaw with titanium teeth.",
+    "richDescription": "Powerful chainsaw with titanium teeth.",
+    "image": "assets/images/chainsaw_1.png",
+    "images": [
+      "assets/images/chainsawb_1.png",
+      "assets/images/chainsawb_2.png",
+      "assets/images/chainsawb_3.png",
+      "assets/images/chainsawb_4.png"
+    ],
+    "brand": "Mitsubushi",
+    "price": 13000,
+    "category": "<add_category_id>",
+    "countInStock": 689,
+    "rating": 4,
+    "numReviews": 2500,
+    "isFeatured": true
+  },
+  {
+    "name": "Car Mechanic Tool Box",
+    "description": "Amazing tool box for a car mechanic containing all items.",
+    "richDescription": "Amazing tool box for a car mechanic containing all items.",
+    "image": "assets/images/cmtb_1.png",
+    "images": [
+      "assets/images/cmtbb_1.png",
+      "assets/images/cmtbb_2.png",
+      "assets/images/cmtbb_3.png",
+      "assets/images/cmtbb_4.png"
+    ],
+    "brand": "Kirloskar",
+    "price": 15000,
+    "category": "<add_category_id>",
+    "countInStock": 3500,
+    "rating": 5,
+    "numReviews": 3600,
+    "isFeatured": false
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Electronic",
+    "color": "#ffeef2",
+    "icon": "mui-electronic"
+  },
+  {
+    "name": "Hardware",
+    "color": "#ffe4f3",
+    "icon": "mui-hardware"
+  },
+  {
+    "name": "Furniture",
+    "color": "#ffc8fb",
+    "icon": "mui-furniture"
+  },
+  {
+    "name": "Food",
+    "color": "#ff92c2",
+    "icon": "mui-food"
+  },
+  {
+    "name": "Book",
+    "color": "#fc5130",
+    "icon": "mui-book"
+  }
+]

@@ -1,0 +1,7 @@
+run command in cmd after setting MongoDB Tools in PATH variable
+
+-> point cmd to json file directory before running command
+-> mongoimport <file_name.json> -d <database_name> -c <collection_name> --jsonArray --drop
+
+--jsonArray => if data in json file in the form of array.
+--drop => if you want to drop all data of collection & update with new.

@@ -1,0 +1,27 @@
+[
+  {
+    "orderItems": [
+      {
+        "product": "<product_id>",
+        "quantity": 5
+      },
+      {
+        "product": "<product_id>",
+        "quantity": 5
+      },
+      {
+        "product": "<product_id>",
+        "quantity": 5
+      }
+    ],
+    "shippingAddress1": "ABC Street 101",
+    "shippingAddress2": "ABC Street 101",
+    "city": "XYZ City",
+    "zip": 155896,
+    "country": "XYZ Country",
+    "phone": "+1 1234567890",
+    "status": "Pending",
+    "totalPrice": 100000,
+    "user": "<user_id>"
+  }
+]
