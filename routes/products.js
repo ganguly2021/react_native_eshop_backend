@@ -222,7 +222,7 @@ router.post('/', uploadOptions.single('image'), (req, res) => {
   Method: PUT
   Desc: Update product by id.
 */
-router.put('/:id', (req, res) => {
+router.put('/:id', uploadOptions.single('image'), (req, res) => {
 
   // get product id from url
   const productID = req.params.id;
@@ -239,7 +239,7 @@ router.put('/:id', (req, res) => {
 
   // check product category exists or not
   Category.findById(req.body.category)
-    .then(category => {
+    .then(async category => {
       // check category exists or not
       if (!category) {
         // error response
@@ -250,12 +250,34 @@ router.put('/:id', (req, res) => {
         });
       }
 
+      // get product data
+      const prod = await Product.find(productID);
+
+      // create imagePath for database
+      let imagePath = null;
+
+      // if product exists
+      if ( prod ){
+
+        // if image file uploaded
+        if ( req.file ){
+          // uploaded file name
+          const fileName = req.file.filename;
+          const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+          // create image path
+          imagePath = `${basePath}${fileName}`
+        } else {
+          // copy old image path from product database
+          imagePath = prod.image;
+        }
+      }
+
       // create updated product
       const updatedProduct = {
         name: req.body.name,
         description: req.body.description,
         richDescription: req.body.richDescription,
-        image: req.body.image,
+        image: imagePath,
         brand: req.body.brand,
         price: req.body.price,
         category: req.body.category,
