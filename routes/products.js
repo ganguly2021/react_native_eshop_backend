@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
     const isValid = FILE_TYPE_MAP[file.mimetype];
     let uploadError = new Error("image is invalid.");
 
-    if (isValid){
+    if (isValid) {
       uploadError = null;
     }
 
@@ -142,6 +142,16 @@ router.get('/:id', (req, res) => {
   Desc: Add new product.
 */
 router.post('/', uploadOptions.single('image'), (req, res) => {
+
+  // if image file is not provided
+  if (!req.file) {
+    // error response
+    return res.status(404).json({
+      status: false,
+      code: 404,
+      message: 'Product image not provided.'
+    });
+  }
 
   // uploaded file name
   const fileName = req.file.filename;
