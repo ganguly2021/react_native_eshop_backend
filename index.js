@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.options('*', cors());
 app.use(morgan('dev'));
-app.use(express.static('./public'));
+app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
 
 // handle JSON web Token
 app.use(decryptJWT());
