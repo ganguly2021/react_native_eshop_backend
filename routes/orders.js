@@ -99,6 +99,114 @@ router.get('/:id', (req, res) => {
 
 
 /*
+  URL: api/v1/orders/:id
+  Method: PUT
+  Desc: update order status by id
+*/
+router.put('/:id', (req, res) => {
+
+  const orderID = req.params.id;
+
+  // validate order id
+  if (!mongoose.isValidObjectId(orderID)) {
+    // error response
+    return res.status(422).json({
+      status: false,
+      code: 422,
+      message: 'Order id is not valid.'
+    });
+  }
+
+
+  // update order status by id from orders collections
+  Order.findByIdAndUpdate(orderID, { status: req.body.status }, { new: true })
+    .then(order => {
+
+      // if order not exists
+      if (!order) {
+        // success response
+        return res.status(404).json({
+          status: false,
+          code: 404,
+          message: 'Order not exists.',
+        });
+      }
+
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'Order status updated.',
+        order: order
+      });
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error to update order status.',
+        error: error
+      });
+    });
+
+});
+
+
+/*
+  URL: api/v1/orders/:id
+  Method: DELETE
+  Desc: delete order status by id
+*/
+router.delete('/:id', (req, res) => {
+
+  const orderID = req.params.id;
+
+  // validate order id
+  if (!mongoose.isValidObjectId(orderID)) {
+    // error response
+    return res.status(422).json({
+      status: false,
+      code: 422,
+      message: 'Order id is not valid.'
+    });
+  }
+
+
+  // delete order by id from orders collections
+  Order.findByIdAndDelete(orderID)
+    .then(order => {
+
+      // if order not exists
+      if (!order) {
+        // success response
+        return res.status(404).json({
+          status: false,
+          code: 404,
+          message: 'Order not exists.',
+        });
+      }
+
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'Order deleted.',
+        order: order
+      });
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error to delete order.',
+        error: error
+      });
+    });
+
+});
+
+
+/*
   URL: api/v1/orders
   Method: POST
   Desc: create new order
