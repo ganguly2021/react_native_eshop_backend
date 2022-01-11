@@ -364,5 +364,61 @@ router.get('/get/count', (req, res) => {
 });
 
 
+/*
+  URL: api/v1/orders/get/user_orders/:user_id
+  Method: GET
+  Desc: get orders placed by single user id
+*/
+router.get('/get/user_orders/:user_id', (req, res) => {
+
+  const userID = req.params.user_id;
+
+  // validate order id
+  if (!mongoose.isValidObjectId(userID)) {
+    // error response
+    return res.status(422).json({
+      status: false,
+      code: 422,
+      message: 'User id is not valid.'
+    });
+  }
+
+
+  // read order by user id from orders collections
+  Order.find({ user: userID })
+    .populate('user', 'name email')
+    .populate({ path: 'orderItems', populate: { path: 'product', populate: 'category' } })
+    .then(order => {
+
+      // if order not exists
+      if (!order) {
+        // success response
+        return res.status(404).json({
+          status: false,
+          code: 404,
+          message: 'Order not exists.',
+        });
+      }
+
+      // success response
+      return res.status(200).json({
+        status: true,
+        code: 200,
+        message: 'Order by user id retreived.',
+        order: order
+      });
+    }).catch(error => {
+      // error response
+      return res.status(502).json({
+        status: false,
+        code: 502,
+        message: 'Database error to get order by user id.',
+        error: error
+      });
+    });
+
+});
+
+
 // export router
 module.exports = router;
