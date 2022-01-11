@@ -296,5 +296,44 @@ router.post('/', async (req, res) => {
 });
 
 
+/*
+  URL: api/v1/orders/get/total_sales
+  Method: GET
+  Desc: get total sales
+*/
+router.get('/get/total_sales', (req, res) => {
+
+  Order.aggregate([
+    { $group: { _id: null, totalSales: { $sum: "$totalPrice" } } }
+  ]).then(totalSales => {
+
+    if (!totalSales) {
+      // error response
+      return res.status(404).json({
+        status: false,
+        code: 404,
+        message: 'Total sales not exists'
+      });
+    }
+
+    // success response
+    return res.status(200).json({
+      status: true,
+      code: 200,
+      message: 'Total sales of orders.',
+      totalSales: totalSales.pop().totalSales
+    });
+  }).catch(error => {
+    // error response
+    return res.status(502).json({
+      status: false,
+      code: 502,
+      message: 'Database error to calculate total sales.',
+      error: error
+    });
+  });
+});
+
+
 // export router
 module.exports = router;
