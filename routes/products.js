@@ -257,10 +257,10 @@ router.put('/:id', uploadOptions.single('image'), (req, res) => {
       let imagePath = null;
 
       // if product exists
-      if ( prod ){
+      if (prod) {
 
         // if image file uploaded
-        if ( req.file ){
+        if (req.file) {
           // uploaded file name
           const fileName = req.file.filename;
           const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
@@ -468,6 +468,84 @@ router.get('/get/featured/:count', (req, res) => {
       });
     });
 });
+
+
+/*
+  URL: api/v1/products/gallery-images/:id
+  Method: PUT
+  Desc: Upload image gallery for product
+*/
+router.put(
+  '/gallery-images/:id',
+  uploadOptions.array('images', 10),
+  async (req, res) => {
+
+    // if files are provided
+    if (!req.files) {
+      // error response
+      return res.status(404).json({
+        status: false,
+        code: 404,
+        message: 'Product galley images not provided.',
+      });
+    }
+
+    // get product id from url
+    const productID = req.params.id;
+
+    // check id is valid or not
+    if (!mongoose.isValidObjectId(productID)) {
+      // error response
+      return res.status(422).json({
+        status: false,
+        code: 422,
+        message: 'Product id is not valid.',
+      });
+    }
+
+    const files = req.files;
+    let imagesPath = [];
+
+    if (files) {
+      files.forEach(file => {
+        // uploaded file name
+        const fileName = file.filename;
+        const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+
+        // add file url into imagesPath array
+        imagesPath.push(`${basePath}${fileName}`);
+      });
+    }
+
+    // update product images gallery
+    const product = await Product.findByIdAndUpdate(
+      productID,
+      {
+        images: imagesPath
+      },
+      {
+        new: true
+      }
+    );
+
+    // if product is empty
+    if (!product) {
+      // error response
+      return res.status(404).json({
+        status: false,
+        code: 404,
+        message: 'Product not found in database.'
+      });
+    }
+
+    // success response
+    return res.status(200).json({
+      status: true,
+      code: 200,
+      message: 'Product image gallery uploaded.',
+      product: product
+    });
+  });
 
 
 // export router
