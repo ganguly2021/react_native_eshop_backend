@@ -1,13 +1,13 @@
-const { required } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // create order schema
 const orderSchema = new Schema({
-  orderItems: {
-    type: [Schema.Types.ObjectId],
-    ref: 'order_items'
-  },
+  orderItems: [{
+    type: Schema.Types.ObjectId,
+    ref: 'order_items',
+    required: true
+  }],
   shippingAddress1: {
     type: String,
     required: true
@@ -33,21 +33,29 @@ const orderSchema = new Schema({
   },
   status: {
     type: String,
-    default: 'pending'
+    default: 'Pending'
   },
   totalPrice: {
     type: Number,
     default: 0
   },
   user: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    required: true
   },
   dateOrdered: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
 });
 
+// create virtual id key
+orderSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+orderSchema.set('toJSON', { virtuals: true });
 
 // export order schema / model
 module.exports = mongoose.model('orders', orderSchema);
